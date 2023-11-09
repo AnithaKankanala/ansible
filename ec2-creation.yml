@@ -1,0 +1,22 @@
+---
+- name: Create EC2 instance
+  hosts: localhost
+  gather_facts: yes
+  vars_files:
+    - cred.yml
+  tasks:
+    - name: Create EC2 instance
+      amazon.aws.ec2_instance:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        name: "public-compute-instance"
+        key_name: "serve"
+        instance_type: t2.micro
+        security_group: serve
+        region: ap-south-1
+        vpc_subnet_id: subnet-050b1a91761e3fa1e
+        network:
+          assign_public_ip: true
+        image_id: ami-0a6ed6689998f32a5
+        tags:
+          Environment: Testing
