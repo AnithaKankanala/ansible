@@ -1,0 +1,15 @@
+---
+  - name: Sample configuration
+    hosts: all
+    tasks:
+      - name: Copy sample Configuration file
+        copy:
+          src: /conf/samp_conf
+          dest: /config/samp_conf
+          owner: root
+          mode: 0644
+        register: config_copy
+
+      - name: Revert config if changed
+        command: echo "The config file is changed and the file is changed back to its orginal state "
+        when: config_copy.changed
